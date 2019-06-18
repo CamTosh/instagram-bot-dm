@@ -1,5 +1,4 @@
 import json
-import asyncio  
 from selenium import webdriver
 from time import sleep
 
