@@ -60,15 +60,4 @@ if __name__ == '__main__':
 		sleep(4)
 		buttons = driver.find_elements_by_css_selector(selectors['send'])
 		buttons[len(buttons)-1].click()
-		sleep(100)
-
-
-
-
-
-
-
-
-
-
-
+		sleep(4)
