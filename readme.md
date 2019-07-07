@@ -1,5 +1,9 @@
 # Instagram-bot-dm
 
-Use mobile version of Instagram to send DM.
+Send direct message with Instagram bot.
 
-Edit `config.json` file with your credentials, message, and target.
+Edit `config.json` file with your credentials, message, and target (username).
+Work with Python 3.7.2 and Selenium.
+
+
+Run it with `py app.py`
