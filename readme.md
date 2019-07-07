@@ -7,3 +7,5 @@ Work with Python 3.7.2 and Selenium.
 
 
 Run it with `py app.py`
+
+Buy me a 🍺 : [Paypal](https://www.paypal.me/camtosh/7)
