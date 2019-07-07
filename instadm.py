@@ -1,11 +1,21 @@
 from selenium import webdriver
 from random import randint
 from time import sleep
+import logging
 
 class InstaDM(object):
 	
-	def __init__(self, username, password, selectors, headless = True):
-		self.selectors = selectors
+	def __init__(self, username, password, headless = True):
+		self.selectors = {
+	      "home_to_login_button": ".WquS1 a",
+	      "username_field": "username",
+	      "password_field": "password",
+	      "button_login": "._0mzm-",
+	      "search_user": "queryBox",
+	      "select_user": "._0mzm-",
+	      "textarea": "textarea",
+	      "send": "button"
+	    }
 
 		# Selenium config
 		options = webdriver.ChromeOptions()
@@ -22,7 +32,10 @@ class InstaDM(object):
 		self.driver.set_window_position(0, 0)
 		self.driver.set_window_size(414, 736)
 		
-		self.login(username, password)
+		try:
+			self.login(username, password)
+		except Exception as e:
+			logging.error(e)
 
 	def login(self, username, password):
 		# homepage
@@ -32,7 +45,7 @@ class InstaDM(object):
 		self.__randomSleep__(2, 4)
 		
 		# login
-		print('Login with {}'.format(username))
+		logging.info('Login with {}'.format(username))
 		self.__scrolldown__()
 		self.driver.find_element_by_name(self.selectors['username_field']).send_keys(username)
 		self.driver.find_element_by_name(self.selectors['password_field']).send_keys(password)
@@ -40,7 +53,7 @@ class InstaDM(object):
 		self.__randomSleep__()
 
 	def sendMessage(self, user, message):
-		print('Send message to {}'.format(user))
+		logging.info('Send message {} to {}'.format(message, user))
 		self.driver.get('https://www.instagram.com/direct/new/')
 		self.driver.find_element_by_name(self.selectors['search_user']).send_keys(user)
 		self.__randomSleep__()
@@ -61,7 +74,7 @@ class InstaDM(object):
 
 	def __randomSleep__(self, min = 2, max = 10):
 		t = randint(min, max)
-		print('wait {} seconds'.format(t))
+		logging.info('Wait {} seconds'.format(t))
 		sleep(t)
 
 	def __scrolldown__(self):
