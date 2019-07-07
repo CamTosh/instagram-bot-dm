@@ -3,7 +3,7 @@
     "username": "",
     "password": "",
     "targets": ["user1", "user2"],
-    "message": "your message"
+    "message": ["your message", "another message"]
   },
   "selectors": {
     "home_to_login_button": ".WquS1 a",
