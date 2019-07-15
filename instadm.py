@@ -2,10 +2,11 @@ from selenium import webdriver
 from random import randint
 from time import sleep
 import logging
+import sqlite3
 
 class InstaDM(object):
 	
-	def __init__(self, username, password, headless = True):
+	def __init__(self, username, password, headless=True, instapy_workspace=None):
 		self.selectors = {
 	      "home_to_login_button": ".WquS1 a",
 	      "username_field": "username",
@@ -32,6 +33,29 @@ class InstaDM(object):
 		self.driver.set_window_position(0, 0)
 		self.driver.set_window_size(414, 736)
 		
+		# Instapy init DB
+		self.instapy_workspace = instapy_workspace
+		if self.instapy_workspace != None:
+			self.conn = sqlite3.connect(self.instapy_workspace + "InstaPy/db/instapy.db")
+			self.cursor = CONN.cursor()
+
+			cursor = CONN.execute(```
+				SELECT count(*)
+				FROM sqlite_master
+				WHERE type='table'
+				AND name='message';
+			```)
+			count = cursor.fetchone()[0]
+
+			if count == 0:
+				CONN.execute(```
+					CREATE TABLE "message" (
+						"username"	TEXT NOT NULL UNIQUE,
+						"message"	TEXT DEFAULT NULL,
+						"sent_message_at"	TIMESTAMP
+					);
+				```)
+
 		try:
 			self.login(username, password)
 		except Exception as e:

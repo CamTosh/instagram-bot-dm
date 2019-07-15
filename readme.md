@@ -18,5 +18,32 @@ if __name__ == '__main__':
 	insta.sendGroupMessage(users=['user1', 'user2'], message='Hey !')
 ```
 
+## Work's with InstaPY
+
+Use `instapy_workspace` param on constructor: 
+
+```python
+from instadm import InstaDM
+
+if __name__ == '__main__':
+	# Auto login
+	insta = InstaDM(
+		username='your_username',
+		password='your_password',
+		headless=False,
+		instapy_workspace='workspace/'
+	)
+```
+
+InstaDM create table `followers` if not exists.
+```sql
+CREATE TABLE "followers" (
+	"username"	TEXT NOT NULL UNIQUE,
+	"name"	TEXT NOT NULL,
+	"detected_at"	TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
+	"message"	TEXT DEFAULT NULL,
+	"sent_message_at"	TIMESTAMP
+);
+```
 
 Buy me a 🍺 : [Paypal](https://www.paypal.me/camtosh/7)
