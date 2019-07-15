@@ -72,6 +72,31 @@ class InstaDM(object):
 		buttons[len(buttons)-1].click()
 		self.__randomSleep__()
 
+	def sendGroupMessage(self, users, message):
+		logging.info('Send group message {} to {}'.format(message, str(users)))
+		self.driver.get('https://www.instagram.com/direct/new/')
+
+		searchInput = self.driver.find_element_by_name(self.selectors['search_user'])
+		for user in users:
+			searchInput.send_keys(user)
+			self.__randomSleep__()
+
+			# Select user
+			elements = self.driver.find_elements_by_css_selector(self.selectors['select_user'])
+			elements[2].click()
+			self.__randomSleep__(2, 4)
+			#searchInput.clear()
+		
+		# Go to page
+		elements[0].click()
+		self.__randomSleep__()
+		self.driver.find_elements_by_xpath("*//textarea")[0].send_keys(message)
+		self.__randomSleep__()
+		buttons = self.driver.find_elements_by_css_selector(self.selectors['send'])
+		buttons[len(buttons)-1].click()
+		self.__randomSleep__()
+
+
 	def __randomSleep__(self, min = 2, max = 10):
 		t = randint(min, max)
 		logging.info('Wait {} seconds'.format(t))
