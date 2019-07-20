@@ -35,12 +35,10 @@ if __name__ == '__main__':
 	)
 ```
 
-InstaDM create table `followers` if not exists.
+InstaDM create table `message` if not exists.
 ```sql
-CREATE TABLE "followers" (
+CREATE TABLE "message" (
 	"username"	TEXT NOT NULL UNIQUE,
-	"name"	TEXT NOT NULL,
-	"detected_at"	TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 	"message"	TEXT DEFAULT NULL,
 	"sent_message_at"	TIMESTAMP
 );
