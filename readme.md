@@ -18,14 +18,40 @@ if __name__ == '__main__':
 	insta.sendGroupMessage(users=['user1', 'user2'], message='Hey !')
 ```
 
-## Dashboard
+## Work's with InstaPY
+
+Use `instapy_workspace` param on constructor: 
+
+```python
+from instadm import InstaDM
+
+if __name__ == '__main__':
+	# Auto login
+	insta = InstaDM(
+		username='your_username',
+		password='your_password',
+		headless=False,
+		instapy_workspace='workspace/'
+	)
+```
+
+InstaDM create table `message` if not exists.
+```sql
+CREATE TABLE "message" (
+	"username"	TEXT NOT NULL UNIQUE,
+	"message"	TEXT DEFAULT NULL,
+	"sent_message_at"	TIMESTAMP
+);
+```
+
+## Work's with InstaPY Dashboard
 
 InstaDM works with an [modified version of InstaPy Dashboard](https://github.com/CamTosh/instapy-dashboard). 
 
 > [InstaPy Dashboard](https://github.com/converge/instapy-dashboard) is an Open Source project developed by @converge to visualize Instagram accounts progress and real-time InstaPy logs on the browser. 
 
 
-
+## Support
 
 
 <a href="https://www.paypal.me/camtosh">
