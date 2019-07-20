@@ -35,6 +35,8 @@ class InstaDM(object):
 		
 		# Instapy init DB
 		self.instapy_workspace = instapy_workspace
+		self.conn = None
+		self.cursor = None
 		if self.instapy_workspace != None:
 			self.conn = sqlite3.connect(self.instapy_workspace + "InstaPy/db/instapy.db")
 			self.cursor = CONN.cursor()
@@ -91,9 +93,15 @@ class InstaDM(object):
 		elements[0].click()
 		self.__randomSleep__()
 		self.driver.find_elements_by_xpath("*//textarea")[0].send_keys(message)
+
 		self.__randomSleep__()
 		buttons = self.driver.find_elements_by_css_selector(self.selectors['send'])
 		buttons[len(buttons)-1].click()
+
+		if self.conn != None:
+			self.cursor.execute('INSERT INTO message (username, message) VALUES(?, ?)', (user, message))
+			self.conn.commit()
+
 		self.__randomSleep__()
 
 	def sendGroupMessage(self, users, message):
@@ -101,7 +109,10 @@ class InstaDM(object):
 		self.driver.get('https://www.instagram.com/direct/new/')
 
 		searchInput = self.driver.find_element_by_name(self.selectors['search_user'])
+		usersAndMessages = []
 		for user in users:
+			if self.conn != None:
+				usersAndMessages.append((user, message))
 			searchInput.send_keys(user)
 			self.__randomSleep__()
 
@@ -118,6 +129,13 @@ class InstaDM(object):
 		self.__randomSleep__()
 		buttons = self.driver.find_elements_by_css_selector(self.selectors['send'])
 		buttons[len(buttons)-1].click()
+
+		if self.conn != None:
+			self.cursor.executemany('''
+				INSERT OR IGNORE INTO message (username, message) VALUES(?, ?)
+			''', usersAndMessages)
+			self.conn.commit()
+
 		self.__randomSleep__()
 
 
