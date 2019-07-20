@@ -18,5 +18,16 @@ if __name__ == '__main__':
 	insta.sendGroupMessage(users=['user1', 'user2'], message='Hey !')
 ```
 
+## Dashboard
 
-Buy me a 🍺 : [Paypal](https://www.paypal.me/camtosh/7)
+InstaDM works with an [modified version of InstaPy Dashboard](https://github.com/CamTosh/instapy-dashboard). 
+
+> [InstaPy Dashboard](https://github.com/converge/instapy-dashboard) is an Open Source project developed by @converge to visualize Instagram accounts progress and real-time InstaPy logs on the browser. 
+
+
+
+
+
+<a href="https://www.paypal.me/camtosh">
+  <img hspace="0" alt="paypalme" src="http://codeinpython.com/tutorials/wp-content/uploads/2017/09/PayPal-ME-300x300.jpg.png" width=100 />
+Buy me a 🍺 
