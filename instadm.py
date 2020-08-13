@@ -41,22 +41,22 @@ class InstaDM(object):
 			self.conn = sqlite3.connect(self.instapy_workspace + "InstaPy/db/instapy.db")
 			self.cursor = CONN.cursor()
 
-			cursor = CONN.execute(```
+			cursor = CONN.execute("""
 				SELECT count(*)
 				FROM sqlite_master
 				WHERE type='table'
 				AND name='message';
-			```)
+			""")
 			count = cursor.fetchone()[0]
 
 			if count == 0:
-				CONN.execute(```
+				CONN.execute("""
 					CREATE TABLE "message" (
 						"username"	TEXT NOT NULL UNIQUE,
 						"message"	TEXT DEFAULT NULL,
 						"sent_message_at"	TIMESTAMP
 					);
-				```)
+				""")
 
 		try:
 			self.login(username, password)
