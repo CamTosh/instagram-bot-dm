@@ -39,9 +39,9 @@ class InstaDM(object):
 		self.cursor = None
 		if self.instapy_workspace != None:
 			self.conn = sqlite3.connect(self.instapy_workspace + "InstaPy/db/instapy.db")
-			self.cursor = CONN.cursor()
+			self.cursor = self.conn.cursor()
 
-			cursor = CONN.execute("""
+			cursor = self.conn.execute("""
 				SELECT count(*)
 				FROM sqlite_master
 				WHERE type='table'
@@ -50,7 +50,7 @@ class InstaDM(object):
 			count = cursor.fetchone()[0]
 
 			if count == 0:
-				CONN.execute("""
+				self.conn.execute("""
 					CREATE TABLE "message" (
 						"username"	TEXT NOT NULL UNIQUE,
 						"message"	TEXT DEFAULT NULL,
