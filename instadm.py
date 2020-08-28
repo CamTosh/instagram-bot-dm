@@ -6,7 +6,7 @@ import sqlite3
 
 class InstaDM(object):
 	
-	def __init__(self, username, password, headless=True, instapy_workspace=None):
+	def __init__(self, username, password, headless=True, instapy_workspace=None, profileDir = None):
 		self.selectors = {
 	      "home_to_login_button": ".WquS1 a",
 	      "username_field": "username",
@@ -20,6 +20,9 @@ class InstaDM(object):
 
 		# Selenium config
 		options = webdriver.ChromeOptions()
+		
+		if profileDir:
+			options.add_argument("user-data-dir=profiles/" + profileDir) 
 
 		if headless:
 			options.add_argument("--headless")
