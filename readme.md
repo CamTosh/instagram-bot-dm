@@ -55,5 +55,5 @@ InstaDM works with an [modified version of InstaPy Dashboard](https://github.com
 
 
 <a href="https://www.paypal.me/camtosh">
-  <img hspace="0" alt="paypalme" src="http://codeinpython.com/tutorials/wp-content/uploads/2017/09/PayPal-ME-300x300.jpg.png" width=100 />
-Buy me a 🍺 
+  <img width="40" hspace="0" alt="paypal.me/camtosh" src="https://how2db.com/wp-content/uploads/2017/04/PayPal-ME-300x300.jpg.png"/>
+Buy me a 🍺 </a>
