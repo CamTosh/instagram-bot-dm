@@ -131,7 +131,7 @@ class InstaDM(object):
         if self.__wait_for_element__(self.selectors['name'], "xpath", 10):
             user_name = self.__get_element__(self.selectors['name'], "xpath").text
             if user_name:
-                greeting = "Hi " + user_name.replace('The ') + ", \n\n"
+                greeting = "Hi " + user_name + ", \n\n"
 
         # Select user from list
         elements = self.driver.find_elements_by_xpath(self.selectors['select_user'])
