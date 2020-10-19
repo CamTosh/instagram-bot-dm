@@ -16,6 +16,7 @@ class InstaDM(object):
 
     def __init__(self, username, password, headless=True, instapy_workspace=None, profileDir=None):
         self.selectors = {
+            "accept_cookies": "//button[text()='Accept']",
             "home_to_login_button": "//button[text()='Log In']",
             "username_field": "username",
             "password_field": "password",
@@ -82,6 +83,9 @@ class InstaDM(object):
         # homepage
         self.driver.get('https://instagram.com/?hl=en')
         self.__random_sleep__(3, 5)
+        if self.__wait_for_element__(self.selectors['accept_cookies'], 'xpath', 10):
+            self.__get_element__(self.selectors['accept_cookies'], 'xpath').click()
+            self.__random_sleep__(3, 5)
         if self.__wait_for_element__(self.selectors['home_to_login_button'], 'xpath', 10):
             self.__get_element__(self.selectors['home_to_login_button'], 'xpath').click()
             self.__random_sleep__(5, 7)
