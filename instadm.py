@@ -5,7 +5,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.common.action_chains import ActionChains
 from random import randint, uniform
-from time import sleep
+from time import time, sleep
 import logging
 import sqlite3
 
@@ -235,6 +235,7 @@ class InstaDM(object):
         self.driver.implicitly_wait(0)
         locator = locator.upper()
         for i in range(timeout):
+            initTime = time()
             try:
                 if locator == 'ID' and self.is_element_present(By.ID, element_tag):
                     result = True
@@ -250,12 +251,11 @@ class InstaDM(object):
                     break
                 else:
                     logging.info(f"Error: Incorrect locator = {locator}")
-                    break
             except Exception as e:
                 logging.error(e)
                 print(f"Exception when __wait_for_element__ : {e}")
-                pass
-            sleep(0.99)
+
+            sleep(1 - (time() - initTime))
         else:
             print(f"Timed out. Element not found with {locator} : {element_tag}")
         self.driver.implicitly_wait(DEFAULT_IMPLICIT_WAIT)
