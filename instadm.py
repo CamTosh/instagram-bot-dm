@@ -104,6 +104,16 @@ class InstaDM(object):
             else:
                 print('Login Failed: Incorrect credentials')
 
+    def createCustomGreeting(self, greeting):
+        # Get username and add custom greeting
+        if self.__wait_for_element__(self.selectors['name'], "xpath", 10):
+            user_name = self.__get_element__(self.selectors['name'], "xpath").text
+            if user_name:
+                greeting = greeting + " " + user_name + ", \n\n"
+        else: 
+            greeting = greeting + ", \n\n"
+        return greeting
+
     def typeMessage(self, user, message):
         # Go to page and type message
         if self.__wait_for_element__(self.selectors['next_button'], "xpath"):
@@ -119,7 +129,7 @@ class InstaDM(object):
             self.__random_sleep__(3, 5)
             print('Message sent successfully')
 
-    def sendMessage(self, user, message):
+    def sendMessage(self, user, message, greeting=None):
         logging.info(f'Send message to {user}')
         print(f'Send message to {user}')
         self.driver.get('https://www.instagram.com/direct/new/?hl=en')
@@ -130,12 +140,8 @@ class InstaDM(object):
             self.__type_slow__(self.selectors['search_user'], "name", user)
             self.__random_sleep__(7, 10)
 
-            # get user name and add custom greeting
-            greeting = "Hi, \n\n"
-            if self.__wait_for_element__(self.selectors['name'], "xpath", 10):
-                user_name = self.__get_element__(self.selectors['name'], "xpath").text
-                if user_name:
-                    greeting = "Hi " + user_name + ", \n\n"
+            if greeting != None:
+                greeting = self.createCustomGreeting(greeting)
 
             # Select user from list
             elements = self.driver.find_elements_by_xpath(self.selectors['select_user'])
@@ -143,7 +149,10 @@ class InstaDM(object):
                 elements[0].click()
                 self.__random_sleep__()
 
-                self.typeMessage(user, greeting + message)
+                if greeting != None:
+                    self.typeMessage(user, greeting + message)
+                else:
+                    self.typeMessage(user, message)
                 
                 if self.conn is not None:
                     self.cursor.execute('INSERT INTO message (username, message) VALUES(?, ?)', (user, message))
