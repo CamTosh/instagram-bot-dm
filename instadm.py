@@ -279,7 +279,6 @@ class InstaDM(object):
     def __random_sleep__(self, minimum=10, maximum=20):
         t = randint(minimum, maximum)
         logging.info(f'Wait {t} seconds')
-        print(f'Wait {t} seconds')
         sleep(t)
 
     def __scrolldown__(self):
