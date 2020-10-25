@@ -11,7 +11,6 @@ import sqlite3
 
 DEFAULT_IMPLICIT_WAIT = 30
 
-
 class InstaDM(object):
 
     def __init__(self, username, password, headless=True, instapy_workspace=None, profileDir=None):
@@ -126,29 +125,41 @@ class InstaDM(object):
         self.driver.get('https://www.instagram.com/direct/new/?hl=en')
         self.__random_sleep__(5, 7)
 
-        self.__wait_for_element__(self.selectors['search_user'], "name")
-        self.__type_slow__(self.selectors['search_user'], "name", user)
-        self.__random_sleep__(7, 10)
+        try:
+            self.__wait_for_element__(self.selectors['search_user'], "name")
+            self.__type_slow__(self.selectors['search_user'], "name", user)
+            self.__random_sleep__(7, 10)
 
-        # get user name and add custom greeting
-        greeting = "Hi, \n\n"
-        if self.__wait_for_element__(self.selectors['name'], "xpath", 10):
-            user_name = self.__get_element__(self.selectors['name'], "xpath").text
-            if user_name:
-                greeting = "Hi " + user_name + ", \n\n"
+            # get user name and add custom greeting
+            greeting = "Hi, \n\n"
+            if self.__wait_for_element__(self.selectors['name'], "xpath", 10):
+                user_name = self.__get_element__(self.selectors['name'], "xpath").text
+                if user_name:
+                    greeting = "Hi " + user_name + ", \n\n"
 
-        # Select user from list
-        elements = self.driver.find_elements_by_xpath(self.selectors['select_user'])
-        if elements and len(elements) > 0:
-            elements[0].click()
-            self.__random_sleep__()
+            # Select user from list
+            elements = self.driver.find_elements_by_xpath(self.selectors['select_user'])
+            if elements and len(elements) > 0:
+                elements[0].click()
+                self.__random_sleep__()
 
-        self.typeMessage(user, greeting + message)
-        
-        if self.conn is not None:
-            self.cursor.execute('INSERT INTO message (username, message) VALUES(?, ?)', (user, message))
-            self.conn.commit()
-        self.__random_sleep__(50, 60)
+                self.typeMessage(user, greeting + message)
+                
+                if self.conn is not None:
+                    self.cursor.execute('INSERT INTO message (username, message) VALUES(?, ?)', (user, message))
+                    self.conn.commit()
+                self.__random_sleep__(50, 60)
+
+                return True
+
+            # In case user has changed his username or has a private account
+            else:
+                print(f'User {user} not found! Skipping.')
+                return False
+            
+        except Exception as e:
+            logging.error(e)
+            return False
 
 
     def sendGroupMessage(self, users, message):
@@ -157,29 +168,38 @@ class InstaDM(object):
         self.driver.get('https://www.instagram.com/direct/new/?hl=en')
         self.__random_sleep__(5, 7)
 
-        usersAndMessages = []
-        for user in users:
-            if self.conn is not None:
-                usersAndMessages.append((user, message))
+        try:
+            usersAndMessages = []
+            for user in users:
+                if self.conn is not None:
+                    usersAndMessages.append((user, message))
 
-            self.__wait_for_element__(self.selectors['search_user'], "name")
-            self.__type_slow__(self.selectors['search_user'], "name", user)
-            self.__random_sleep__()
-
-            # Select user from list
-            elements = self.driver.find_elements_by_xpath(self.selectors['select_user'])
-            if elements and len(elements) > 0:
-                elements[0].click()
+                self.__wait_for_element__(self.selectors['search_user'], "name")
+                self.__type_slow__(self.selectors['search_user'], "name", user)
                 self.__random_sleep__()
 
-        self.typeMessage(user, message)
+                # Select user from list
+                elements = self.driver.find_elements_by_xpath(self.selectors['select_user'])
+                if elements and len(elements) > 0:
+                    elements[0].click()
+                    self.__random_sleep__()
+                else:
+                    print(f'User {user} not found! Skipping.')
 
-        if self.conn is not None:
-            self.cursor.executemany("""
-                INSERT OR IGNORE INTO message (username, message) VALUES(?, ?)
-            """, usersAndMessages)
-            self.conn.commit()
-        self.__random_sleep__(50, 60)
+            self.typeMessage(user, message)
+
+            if self.conn is not None:
+                self.cursor.executemany("""
+                    INSERT OR IGNORE INTO message (username, message) VALUES(?, ?)
+                """, usersAndMessages)
+                self.conn.commit()
+            self.__random_sleep__(50, 60)
+
+            return True
+        
+        except Exception as e:
+            logging.error(e)
+            return False
 
     def __get_element__(self, element_tag, locator):
         """Wait for element and then return when it is available"""
