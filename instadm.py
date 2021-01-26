@@ -3,6 +3,7 @@ from webdriver_manager.chrome import ChromeDriverManager as CM
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
+from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from random import randint, uniform
 from time import time, sleep
@@ -197,6 +198,47 @@ class InstaDM(object):
 
             self.typeMessage(user, message)
 
+            if self.conn is not None:
+                self.cursor.executemany("""
+                    INSERT OR IGNORE INTO message (username, message) VALUES(?, ?)
+                """, usersAndMessages)
+                self.conn.commit()
+            self.__random_sleep__(50, 60)
+
+            return True
+        
+        except Exception as e:
+            logging.error(e)
+            return False
+            
+    def sendGroupIDMessage(self, chatID, message):
+        logging.info(f'Send group message to {chatID}')
+        print(f'Send group message to {chatID}')
+        self.driver.get('https://www.instagram.com/direct/inbox/')
+        self.__random_sleep__(5, 7)
+        
+        # Definitely a better way to do this:
+        actions = ActionChains(self.driver) 
+        actions.send_keys(Keys.TAB*2 + Keys.ENTER).perform()
+        actions.send_keys(Keys.TAB*4 + Keys.ENTER).perform()
+
+            
+        if self.__wait_for_element__(f"//a[@href='/direct/t/{chatID}']", 'xpath', 10):
+            self.__get_element__(f"//a[@href='/direct/t/{chatID}']", 'xpath').click()
+            self.__random_sleep__(3, 5)
+
+        try:
+            usersAndMessages = [chatID]
+
+            if self.__wait_for_element__(self.selectors['textarea'], "xpath"):
+                self.__type_slow__(self.selectors['textarea'], "xpath", message)
+                self.__random_sleep__()
+            
+            if self.__wait_for_element__(self.selectors['send'], "xpath"):
+                self.__get_element__(self.selectors['send'], "xpath").click()
+                self.__random_sleep__(3, 5)
+                print('Message sent successfully')
+            
             if self.conn is not None:
                 self.cursor.executemany("""
                     INSERT OR IGNORE INTO message (username, message) VALUES(?, ?)
