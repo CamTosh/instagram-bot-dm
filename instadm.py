@@ -23,7 +23,7 @@ class InstaDM(object):
             "button_login": "//button/*[text()='Log In']",
             "login_check": "//*[@aria-label='Home'] | //button[text()='Save Info'] | //button[text()='Not Now']",
             "search_user": "queryBox",
-            "select_user": "//div[@aria-labelledby]/div/span//img[@data-testid='user-avatar']",
+            "select_user": '//div[text()="{}"]',
             "name": "((//div[@aria-labelledby]/div/span//img[@data-testid='user-avatar'])[1]//..//..//..//div[2]/div[2]/div)[1]",
             "next_button": "//button/*[text()='Next']",
             "textarea": "//textarea[@placeholder]",
@@ -145,7 +145,7 @@ class InstaDM(object):
                 greeting = self.createCustomGreeting(greeting)
 
             # Select user from list
-            elements = self.driver.find_elements_by_xpath(self.selectors['select_user'])
+            elements = self.driver.find_elements_by_xpath(self.selectors['select_user'].format(user))
             if elements and len(elements) > 0:
                 elements[0].click()
                 self.__random_sleep__()
@@ -189,7 +189,7 @@ class InstaDM(object):
                 self.__random_sleep__()
 
                 # Select user from list
-                elements = self.driver.find_elements_by_xpath(self.selectors['select_user'])
+                elements = self.driver.find_elements_by_xpath(self.selectors['select_user'].format(user))
                 if elements and len(elements) > 0:
                     elements[0].click()
                     self.__random_sleep__()
