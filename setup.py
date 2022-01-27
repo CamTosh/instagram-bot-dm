@@ -18,6 +18,8 @@ setup(
     name="instadm",
     version=version,
     author="Toche Camille",
+    author_email="current.address@unknown.invalid",
+    url="https://github.com/CamTosh/instagram-bot-dm",
     description="Instagram bot to send direct messages",
     long_description=long_description,
     long_description_content_type="text/markdown",
