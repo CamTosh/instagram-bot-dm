@@ -1,6 +1,6 @@
 # Instagram Direct Message Bot
 
-Send direct and group message with Instagram bot. Work with Python 3.7.2 and Selenium.
+Sends direct and group message with Instagram bot. Works with Python 3.7.2 and Selenium.
 
 ## Example : 
 
@@ -35,7 +35,7 @@ if __name__ == '__main__':
 	)
 ```
 
-InstaDM create table `message` if not exists.
+InstaDM createes a table `message` if it does not already exists.
 ```sql
 CREATE TABLE "message" (
 	"username"	TEXT NOT NULL UNIQUE,
