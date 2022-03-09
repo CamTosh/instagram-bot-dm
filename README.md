@@ -51,9 +51,7 @@ InstaDM works with an [modified version of InstaPy Dashboard](https://github.com
 > [InstaPy Dashboard](https://github.com/converge/instapy-dashboard) is an Open Source project developed by @converge to visualize Instagram accounts progress and real-time InstaPy logs on the browser. 
 
 
-## Support
+## Buy me a 🍺
 
-
-<a href="https://www.paypal.me/camtosh">
-  <img width="40" hspace="0" alt="paypal.me/camtosh" src="https://how2db.com/wp-content/uploads/2017/04/PayPal-ME-300x300.jpg.png"/>
-Buy me a 🍺 </a>
+- [Paypal](https://www.paypal.me/camtosh)
+- [Ethereum](0x37C8aB6329Dd4541ec178d3FfAe834e61f536874)
