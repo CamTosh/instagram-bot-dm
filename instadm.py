@@ -16,7 +16,7 @@ class InstaDM(object):
 
     def __init__(self, username, password, headless=True, instapy_workspace=None, profileDir=None):
         self.selectors = {
-            "accept_cookies": "//button[text()='Accept All']",
+            "accept_cookies": "//button[text()='Allow essential and optional cookies']",
             "home_to_login_button": "//button[text()='Log In']",
             "username_field": "username",
             "password_field": "password",
@@ -40,7 +40,7 @@ class InstaDM(object):
             options.add_argument("--headless")
 
         mobile_emulation = {
-            "userAgent": 'Mozilla/5.0 (Linux; Android 4.0.3; HTC One X Build/IML74K) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/18.0.1025.133 Mobile Safari/535.19'
+            "userAgent": 'Mozilla/5.0 (Linux; Android 4.0.3; HTC One X Build/IML74K) AppleWebKit/535.19 (KHTML, like Gecko) Chrome/99.0.4844.51 Mobile Safari/535.19'
         }
         options.add_experimental_option("mobileEmulation", mobile_emulation)
 
