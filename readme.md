@@ -35,7 +35,7 @@ if __name__ == '__main__':
 	)
 ```
 
-InstaDM createes a table `message` if it does not already exists.
+InstaDM creates a table `message` if it does not already exists.
 ```sql
 CREATE TABLE "message" (
 	"username"	TEXT NOT NULL UNIQUE,
