@@ -126,7 +126,7 @@ class InstaDM(object):
             self.__random_sleep__()
 
         if self.__wait_for_element__(self.selectors['send'], "xpath"):
-            __remove_browser_unsupported_banner_if_exists(self, element):
+            self.__remove_browser_unsupported_banner_if_exists(self, element):
             self.__get_element__(self.selectors['send'], "xpath").click()
             self.__random_sleep__(3, 5)
             print('Message sent successfully')
