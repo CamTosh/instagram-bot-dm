@@ -17,6 +17,7 @@ class InstaDM(object):
     def __init__(self, username, password, headless=True, instapy_workspace=None, profileDir=None):
         self.selectors = {
             "accept_cookies": "//button[text()='Allow essential and optional cookies']",
+            "accept_cookies_post_login": "//button[text()='Allow all cookies']",
             "home_to_login_button": "//button[text()='Log In']",
             "username_field": "username",
             "password_field": "password",
@@ -102,6 +103,9 @@ class InstaDM(object):
             self.__random_sleep__()
             if self.__wait_for_element__(self.selectors['login_check'], 'xpath', 10):
                 print('Login Successful')
+                if self.__wait_for_element__(self.selectors['accept_cookies_post_login'], 'xpath', 10):
+                    self.__get_element__(self.selectors['accept_cookies_post_login'], 'xpath').click()
+                    self.__random_sleep__(2, 4)
             else:
                 print('Login Failed: Incorrect credentials')
 
