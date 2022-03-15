@@ -126,18 +126,7 @@ class InstaDM(object):
             self.__random_sleep__()
 
         if self.__wait_for_element__(self.selectors['send'], "xpath"):
-            element = self.__get_element__('rh7Wz', 'CLASS')
-            if element is not None:
-                self.driver.execute_script("""
-                                    var element = arguments[0];
-                                    element.parentNode.removeChild(element);
-                                    """, element)
-            element = self.__get_element__('vohlx', 'CLASS')
-            if element is not None:
-                self.driver.execute_script("""
-                                    var element = arguments[0];
-                                    element.parentNode.removeChild(element);
-                                    """, element)
+            __remove_browser_unsupported_banner_if_exists(self, element):
             self.__get_element__(self.selectors['send'], "xpath").click()
             self.__random_sleep__(3, 5)
             print('Message sent successfully')
@@ -352,3 +341,17 @@ class InstaDM(object):
     def teardown(self):
         self.driver.close()
         self.driver.quit()
+
+    def __remove_browser_unsupported_banner_if_exists(self, element):
+        element = self.__get_element__('rh7Wz', 'CLASS')
+        if element is not None:
+            self.driver.execute_script("""
+                                var element = arguments[0];
+                                element.parentNode.removeChild(element);
+                                """, element)
+        element = self.__get_element__('vohlx', 'CLASS')
+        if element is not None:
+            self.driver.execute_script("""
+                                var element = arguments[0];
+                                element.parentNode.removeChild(element);
+                                """, element)
