@@ -130,6 +130,7 @@ class InstaDM(object):
             self.__random_sleep__()
 
         if self.__wait_for_element__(self.selectors['send'], "xpath"):
+            self.__remove_browser_unsupported_banner_if_exists(self, element):
             self.__get_element__(self.selectors['send'], "xpath").click()
             self.__random_sleep__(3, 5)
             print('Message sent successfully')
@@ -269,6 +270,8 @@ class InstaDM(object):
                 return WebDriverWait(dr, 15).until(lambda d: dr.find_element_by_xpath(element_tag))
             elif locator == 'CSS' and self.is_element_present(By.CSS_SELECTOR, element_tag):
                 return WebDriverWait(dr, 15).until(lambda d: dr.find_element_by_css_selector(element_tag))
+            elif locator == 'CLASS' and self.is_element_present(By.CLASS_NAME, element_tag):
+                return WebDriverWait(dr, 15).until(lambda d: dr.find_element_by_class_name(element_tag))
             else:
                 logging.info(f"Error: Incorrect locator = {locator}")
         except Exception as e:
@@ -342,3 +345,17 @@ class InstaDM(object):
     def teardown(self):
         self.driver.close()
         self.driver.quit()
+
+    def __remove_browser_unsupported_banner_if_exists(self, element):
+        element = self.__get_element__('rh7Wz', 'CLASS')
+        if element is not None:
+            self.driver.execute_script("""
+                                var element = arguments[0];
+                                element.parentNode.removeChild(element);
+                                """, element)
+        element = self.__get_element__('vohlx', 'CLASS')
+        if element is not None:
+            self.driver.execute_script("""
+                                var element = arguments[0];
+                                element.parentNode.removeChild(element);
+                                """, element)
