@@ -18,6 +18,8 @@ if __name__ == '__main__':
 	insta.sendGroupMessage(users=['user1', 'user2'], message='Hey !')
 ```
 
+If you have little to no knowledge in programming: Read this Guide [How to use "instagram-bot-dm" Python for beginners](https://my-tailwind-nextjs-starter-blog.vercel.app/blog/how-to-use-instagram-bot-dm-python-script-for-beginners) 
+
 ## Work's with InstaPY
 
 Use `instapy_workspace` param on constructor: 
