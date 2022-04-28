@@ -1,3 +1,2 @@
 webdriver_manager==3.2.2
 selenium==3.141.0
-chromedriver-autoinstaller==0.3.1
