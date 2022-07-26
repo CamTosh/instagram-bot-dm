@@ -130,7 +130,7 @@ class InstaDM(object):
             self.__random_sleep__()
 
         if self.__wait_for_element__(self.selectors['send'], "xpath"):
-            self.__remove_browser_unsupported_banner_if_exists(self, element):
+            self.__remove_browser_unsupported_banner_if_exists()
             self.__get_element__(self.selectors['send'], "xpath").click()
             self.__random_sleep__(3, 5)
             print('Message sent successfully')
@@ -327,7 +327,11 @@ class InstaDM(object):
             actions = ActionChains(self.driver)
             actions.click(element).perform()
             for s in input_text:
-                element.send_keys(s)
+                # https://stackoverflow.com/questions/53901388/how-do-i-manipulate-shiftenter-instead-of-n/53909017#53909017
+                if s == '\n':
+                    element.send_keys(Keys.SHIFT, s)
+                else:
+                    element.send_keys(s)
                 sleep(uniform(0.25, 0.75))
 
         except Exception as e:
@@ -346,7 +350,7 @@ class InstaDM(object):
         self.driver.close()
         self.driver.quit()
 
-    def __remove_browser_unsupported_banner_if_exists(self, element):
+    def __remove_browser_unsupported_banner_if_exists(self):
         element = self.__get_element__('rh7Wz', 'CLASS')
         if element is not None:
             self.driver.execute_script("""
