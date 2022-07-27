@@ -326,9 +326,9 @@ class InstaDM(object):
             element = self.__get_element__(element_tag, locator)
             actions = ActionChains(self.driver)
             actions.click(element).perform()
-            for s in input_text:
+            for index, s in enumerate(input_text):
                 # https://stackoverflow.com/questions/53901388/how-do-i-manipulate-shiftenter-instead-of-n/53909017#53909017
-                if s == '\n':
+                if s == '\n' and index != len(input_text) - 1:
                     element.send_keys(Keys.SHIFT, s)
                 else:
                     element.send_keys(s)
