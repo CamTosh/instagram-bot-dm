@@ -1,3 +1,5 @@
+⚠️ Project discontinued 
+
 # Instagram Direct Message Bot
 
 Send direct and group message with Instagram bot. Work with Python 3.7.2 and Selenium.
