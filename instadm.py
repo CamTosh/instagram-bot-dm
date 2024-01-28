@@ -146,19 +146,16 @@ class InstaDM(object):
             self.__type_slow__(self.selectors['search_user'], "name", user)
             self.__random_sleep__(7, 10)
 
-            if greeting != None:
+            if greeting is not None:
                 greeting = self.createCustomGreeting(greeting)
 
             # Select user from list
             elements = self.driver.find_elements_by_xpath(self.selectors['select_user'].format(user))
-            if elements and len(elements) > 0:
+            if elements:
                 elements[0].click()
                 self.__random_sleep__()
 
-                if greeting != None:
-                    self.typeMessage(user, greeting + message)
-                else:
-                    self.typeMessage(user, message)
+                self.typeMessage(user, greeting + message) if greeting is not None else self.typeMessage(user, message)
                 
                 if self.conn is not None:
                     self.cursor.execute('INSERT INTO message (username, message) VALUES(?, ?)', (user, message))
@@ -195,7 +192,7 @@ class InstaDM(object):
 
                 # Select user from list
                 elements = self.driver.find_elements_by_xpath(self.selectors['select_user'].format(user))
-                if elements and len(elements) > 0:
+                if elements:
                     elements[0].click()
                     self.__random_sleep__()
                 else:
@@ -277,7 +274,7 @@ class InstaDM(object):
         except Exception as e:
             logging.error(e)
         logging.info(f"Element not found with {locator} : {element_tag}")
-        return None
+        return
 
     def is_element_present(self, how, what):
         """Check if an element is present"""
@@ -328,10 +325,7 @@ class InstaDM(object):
             actions.click(element).perform()
             for index, s in enumerate(input_text):
                 # https://stackoverflow.com/questions/53901388/how-do-i-manipulate-shiftenter-instead-of-n/53909017#53909017
-                if s == '\n' and index != len(input_text) - 1:
-                    element.send_keys(Keys.SHIFT, s)
-                else:
-                    element.send_keys(s)
+                element.send_keys(Keys.SHIFT, s) if s == '\n' and index != len(input_text) - 1 else element.send_keys(s)
                 sleep(uniform(0.25, 0.75))
 
         except Exception as e:
